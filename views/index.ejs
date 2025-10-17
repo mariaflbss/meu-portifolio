@@ -1,0 +1,45 @@
+<%- include("partials/header", { title: "Início | " + estudante.nome, estudante }) %>
+
+
+<div class="home-container">
+  <h1 id="typing-text" class="typing-cursor"></h1>
+  <p>Nome: <%= estudante.nome %></p>
+  <p>Curso: <%= estudante.curso %></p>
+  <p>Instituição: <%= estudante.instituicao %></p>
+</div>
+
+<script>
+  const text = "Bem-vindo(a) ao meu portifólio!";
+  const typingSpeed = 100; 
+  const erasingSpeed = 50;
+  const delayBetween = 1500; 
+  let index = 0;
+  let typingText = document.getElementById("typing-text");
+
+  function type() {
+    if (index < text.length) {
+      typingText.textContent += text.charAt(index);
+      index++;
+      setTimeout(type, typingSpeed);
+    } else {
+      setTimeout(erase, delayBetween);
+    }
+  }
+
+  function erase() {
+    if (index > 0) {
+      typingText.textContent = text.substring(0, index - 1);
+      index--;
+      setTimeout(erase, erasingSpeed);
+    } else {
+      setTimeout(type, typingSpeed);
+    }
+  }
+
+  // loop
+  document.addEventListener("DOMContentLoaded", () => {
+    setTimeout(type, 500);
+  });
+</script>
+
+<%- include("partials/footer", { estudante, page: 'index' }) %>

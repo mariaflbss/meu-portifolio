@@ -1,0 +1,14 @@
+<%- include("partials/header", { title: "Disciplinas | " + estudante.nome, estudante: estudante }) %>
+<div id="particles-js"></div>
+<div class="container-principal">
+  <h1>Disciplinas</h1>
+  <div class="disciplinas-grid">
+    <% disciplinas.forEach(d => { %>
+      <div class="card-disciplina">
+        <%= d %>
+      </div>
+    <% }) %>
+  </div>
+</div>
+
+<%- include("partials/footer", { estudante: estudante, page: "disciplinas" }) %>

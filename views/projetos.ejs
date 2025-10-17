@@ -1,0 +1,49 @@
+<%- include("partials/header", { title: "Projetos | " + estudante.nome, estudante: estudante }) %>
+
+<div id="particles-js"></div>
+
+<div class="container-projetos">
+  <h1>Projetos Profissionais</h1>
+
+  <% if (projetos && projetos.length > 0) { %>
+    <div class="cards-grid">
+      <% projetos.forEach(projeto => { %>
+        <div class="card-projeto">
+          <h2><%= projeto.titulo %></h2>
+
+          <% if (projeto.semestre) { %>
+            <p><strong>Semestre:</strong> <%= projeto.semestre %></p>
+          <% } %>
+
+          <% if (projeto.objetivo) { %>
+            <p><strong>Objetivo:</strong> <%= projeto.objetivo %></p>
+          <% } %>
+
+          <% if (projeto.resumo) { %>
+            <p><strong>Resumo:</strong> <%= projeto.resumo %></p>
+          <% } %>
+
+          <% if (projeto.atuacao) { %>
+            <p><strong>Minha Atuação:</strong> <%= projeto.atuacao %></p>
+          <% } %>
+
+          <% if (projeto.tecnologias && projeto.tecnologias.length > 0) { %>
+            <p><strong>Tecnologias e Ferramentas:</strong><br>
+              <%= projeto.tecnologias.join(" – ") %>
+            </p>
+          <% } %>
+
+          <% if (projeto.link) { %>
+            <a href="<%= projeto.link %>" target="_blank">
+              <button>Clique aqui para acessar este Projeto</button>
+            </a>
+          <% } %>
+        </div>
+      <% }) %>
+    </div>
+  <% } else { %>
+    <p>Nenhum projeto profissional cadastrado.</p>
+  <% } %>
+</div>
+
+<%- include("partials/footer", { estudante: estudante, page: "projetos" }) %>

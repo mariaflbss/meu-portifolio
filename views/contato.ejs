@@ -1,0 +1,22 @@
+<%- include("partials/header", { title: "Contato | " + estudante.nome, estudante }) %>
+<div id="particles-js"></div>
+<div class="contact-container">
+  <h1>Contato</h1>
+
+  <div class="contact-card">
+    <img src="/img/email.png" alt="Email">
+    <p><a href="mailto:<%= contato.email %>"><%= contato.email %></a></p>
+  </div>
+
+  <div class="contact-card">
+    <img src="/img/linkedin.png" alt="LinkedIn">
+    <p><a href="<%= contato.linkedin %>" target="_blank">LinkedIn</a></p>
+  </div>
+
+  <div class="contact-card">
+    <img src="/img/github.png" alt="GitHub">
+    <p><a href="<%= contato.github %>" target="_blank">GitHub</a></p>
+  </div>
+</div>
+
+<%- include("partials/footer", { estudante: estudante, page: "contato" }) %>

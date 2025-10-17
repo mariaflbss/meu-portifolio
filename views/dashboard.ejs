@@ -1,0 +1,47 @@
+<%- include("partials/header", { title: "Dashboard", estudante }) %>
+
+<div class="dashboard-container">
+  <h1>Dashboard</h1>
+
+  <div class="stats-grid">
+    <div class="stat-card">
+      <h2 class="count" data-target="<%= stats.totalDisciplinas %>">11</h2>
+      <p>Total de disciplinas</p>
+    </div>
+
+    <div class="stat-card">
+      <h2 class="count" data-target="<%= stats.totalProjetos %>">2</h2>
+      <p>Total de projetos</p>
+    </div>
+
+    <div class="stat-card">
+      <h2 class="count" data-target="<%= stats.tecnologias.length %>">13</h2>
+      <p>Tecnologias dominadas</p>
+      <div class="tech-list">
+        <% stats.tecnologias.forEach(tech => { %>
+          <span class="tech-badge"><%= tech %></span>
+        <% }) %>
+      </div>
+    </div>
+  </div>
+
+<script>
+  const counters = document.querySelectorAll('.count');
+  counters.forEach(counter => {
+    const updateCount = () => {
+      const target = +counter.getAttribute('data-target');
+      const count = +counter.innerText;
+      const increment = target / 100;
+
+      if(count < target) {
+        counter.innerText = Math.ceil(count + increment);
+        setTimeout(updateCount, 20);
+      } else {
+        counter.innerText = target;
+      }
+    };
+    updateCount();
+  });
+</script>
+
+<%- include("partials/footer", { estudante, page: 'dashboard' }) %>
