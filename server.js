@@ -4,9 +4,13 @@ const port = 3000;
 const portifolioRoutes = require("./routes/portifolioroutes");
 
 app.set("view engine", "ejs");
-app.set("view cache", false); 
+app.set("view cache", false);
 
 app.use(express.static("public"));
+
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
+
 app.use("/", portifolioRoutes);
 
 app.listen(port, () => {

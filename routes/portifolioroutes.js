@@ -1,6 +1,5 @@
 const express = require("express");
 const router = express.Router();
-
 const estudante = {
   nome: "Maria Fernanda Laboissiere",
   curso: "Desenvolvimento de Software Multiplataforma",
@@ -23,7 +22,7 @@ const disciplinas = [
   "Estrutura de Dados"
 ];
 
-const projetos = [
+let projetos = [
   {
     titulo: "API - Crows",
     semestre: "1º Semestre",
@@ -54,12 +53,6 @@ const projetos = [
   },
 
   ];
-const contato = {
-  email: "mariaf.laboissiere@gmail.com",
-  linkedin: "https://www.linkedin.com/in/maria-fernanda-laboissiere-25362b353/",
-  github: "https://github.com/mariaflbss"
-};
-
 
 router.get("/", (req, res) => res.render("index", { title: "Início", estudante }));
 
@@ -67,28 +60,56 @@ router.get("/sobre", (req, res) => res.render("sobre", { title: "Sobre Mim", est
 
 router.get("/disciplinas", (req, res) => res.render("disciplinas", { title: "Disciplinas", estudante, disciplinas }));
 
-router.get("/projetos", (req, res) => {
-  console.log("Projetos que vou enviar para o template:");
-  projetos.forEach(proj => console.log(proj.titulo));
-  res.render("projetos", { 
-    title: "Projetos",           
-    estudante,
-    projetos
-  });
+router.get("/contato", (req, res) => {
+  const contato = {
+    email: "mariaf.laboissiere@gmail.com",
+    linkedin: "https://www.linkedin.com/in/maria-fernanda-laboissiere-25362b353/",
+    github: "https://github.com/mariaflbss"
+  };
+  res.render("contato", { title: "Contato", estudante, contato });
 });
-
-router.get("/contato", (req, res) => res.render("contato", { title: "Contato", estudante, contato }));
 
 router.get("/dashboard", (req, res) => {
   const stats = {
     totalDisciplinas: disciplinas.length,
     totalProjetos: projetos.length,
-    tecnologias: ["HTML", "CSS", "Node.js", "EJS", "JavaScript", "TypeScript", "React", "Tailwind", "Bootstrap", "Mysql", "Python", "Flask", "Git"]
+    tecnologias: ["HTML", "CSS", "Node.js", "EJS", "JavaScript", "TypeScript", "React", "Tailwind", "Bootstrap", "Mysql", "Python", "Flask", "Git",]
   };
-
-  console.log(stats.tecnologias);
   res.render("dashboard", { title: "Dashboard", estudante, stats });
 });
 
+// CRUD de projetos
+
+// GET para listar todos os projetos e renderizar a página "projetos.ejs"
+router.get("/projetos", (req, res) => {
+  res.render("projetos", { title: "Projetos", estudante, projetos });
+});
+
+// POST para adicionar um novo projeto à lista
+router.post("/projetos", (req, res) => {
+  const novoProjeto = req.body;
+  projetos.push(novoProjeto);
+  res.status(201).json({ mensagem: "Projeto adicionado com sucesso!", projeto: novoProjeto });
+});
+
+// PUT para atualizar um projeto existente, identificado pelo índice "id"
+router.put("/projetos/:id", (req, res) => {
+  const id = parseInt(req.params.id);
+  if (id < 0 || id >= projetos.length) {
+    return res.status(404).json({ erro: "Projeto não encontrado" });
+  }
+  projetos[id] = req.body;
+  res.json({ mensagem: "Projeto atualizado com sucesso", projeto: projetos[id] });
+});
+
+// DELETE para remover um projeto, identificado pelo índice "id"
+router.delete("/projetos/:id", (req, res) => {
+  const id = parseInt(req.params.id);
+  if (id < 0 || id >= projetos.length) {
+    return res.status(404).json({ erro: "Projeto não encontrado" });
+  }
+  const projetoRemovido = projetos.splice(id, 1);
+  res.json({ mensagem: "Projeto removido com sucesso", projeto: projetoRemovido });
+});
 
 module.exports = router;
