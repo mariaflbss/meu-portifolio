@@ -13,6 +13,14 @@ app.use(express.json());
 
 app.use("/", portifolioRoutes);
 
+const sequelize = require('./models/index');
+const Disciplina = require('./models/Disciplina');
+const Projeto = require('./models/Projeto');
+
+sequelize.sync()
+  .then(() => console.log("✔ Tabelas sincronizadas com sucesso"))
+  .catch(err => console.log("Erro ao sincronizar tabelas:", err));
+
 app.listen(port, () => {
   console.log(`Servidor rodando em http://localhost:${port}`);
 });
